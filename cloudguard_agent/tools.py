@@ -109,16 +109,20 @@ def get_service_incident(incident_id: str) -> dict[str, Any]:
         GPU usage, hourly burn rate, and recommended remediation runbook.
     """
     use_mock = os.getenv("USE_LOCAL_MOCK_DB", "true").lower() == "true"
+    project_id = (os.getenv("GOOGLE_CLOUD_PROJECT") or "").strip()
     normalized_id = incident_id.strip().upper()
 
-    if not use_mock:
-        from google.cloud import firestore  # pragma: no cover
+    if not use_mock and project_id:
+        try:
+            from google.cloud import firestore  # pragma: no cover
 
-        db = firestore.Client(project=os.getenv("GOOGLE_CLOUD_PROJECT"))
-        doc = db.collection("incidents").document(normalized_id).get()
-        if not doc.exists:
-            return {"status": "error", "message": f"Incident {normalized_id} not found in Firestore."}
-        return {"status": "success", "incident": doc.to_dict()}
+            db = firestore.Client(project=project_id)
+            doc = db.collection("incidents").document(normalized_id).get()
+            if not doc.exists:
+                return {"status": "error", "message": f"Incident {normalized_id} not found in Firestore."}
+            return {"status": "success", "incident": doc.to_dict()}
+        except Exception:
+            pass
 
     db_data = _load_db()
     incident = db_data.get("incidents", {}).get(normalized_id)

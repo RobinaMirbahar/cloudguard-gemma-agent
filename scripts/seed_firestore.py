@@ -17,26 +17,37 @@ from cloudguard_agent.tools import DEFAULT_SEED_DATA, LOCAL_DB_PATH
 
 def seed_database() -> None:
     use_mock = os.getenv("USE_LOCAL_MOCK_DB", "true").lower() == "true"
-    project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "cloudguard-enterprise-demo")
+    project_id = (os.getenv("GOOGLE_CLOUD_PROJECT") or "").strip() or "cloudguard-enterprise-demo"
 
     print("=" * 74)
     print(f"CloudGuard Database Seeder | Project: {project_id}")
+
+    if not use_mock and project_id == "cloudguard-enterprise-demo":
+        print("[INFO] No active GCP project set in GOOGLE_CLOUD_PROJECT; using Local Firestore Schema Mirror.")
+        use_mock = True
+
     print(f"Target Mode: {'Local JSON Store (Firestore Schema Mirror)' if use_mock else 'Cloud Firestore Native'}")
     print("=" * 74)
+
+    if not use_mock:
+        try:
+            from google.cloud import firestore  # pragma: no cover
+
+            db = firestore.Client(project=project_id)
+            for doc_id, payload in DEFAULT_SEED_DATA["incidents"].items():
+                db.collection("incidents").document(doc_id).set(payload)
+            for doc_id, payload in DEFAULT_SEED_DATA["quotas"].items():
+                db.collection("quotas").document(doc_id).set(payload)
+            print("[OK] Seeded Cloud Firestore collections: 'incidents' and 'quotas'")
+        except Exception as exc:
+            print(f"[WARN] Cloud Firestore unavailable for project '{project_id}' ({exc.__class__.__name__}).")
+            print("[INFO] Falling back to Local Firestore Schema Mirror.")
+            use_mock = True
 
     if use_mock:
         LOCAL_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
         LOCAL_DB_PATH.write_text(json.dumps(DEFAULT_SEED_DATA, indent=2), encoding="utf-8")
         print(f"[OK] Wrote seed collections to: {LOCAL_DB_PATH}")
-    else:
-        from google.cloud import firestore  # pragma: no cover
-
-        db = firestore.Client(project=project_id)
-        for doc_id, payload in DEFAULT_SEED_DATA["incidents"].items():
-            db.collection("incidents").document(doc_id).set(payload)
-        for doc_id, payload in DEFAULT_SEED_DATA["quotas"].items():
-            db.collection("quotas").document(doc_id).set(payload)
-        print("[OK] Seeded Cloud Firestore collections: 'incidents' and 'quotas'")
 
     print("\nSeeded Collection Summary [incidents]:")
     print(f"{'INCIDENT ID':<16} {'SEVERITY':<10} {'ENVIRONMENT':<13} {'SERVICE NAME':<26} {'BURN ($/HR)':<12}")
