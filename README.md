@@ -1,5 +1,6 @@
 # CloudGuard: Open-Weights Enterprise SecOps & FinOps Agent (`Gemma` + `Google ADK` + `Cloud Run GPUs`)
 
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/?cloudshell_git_repo=https://github.com/RobinaMirbahar/cloudguard-gemma-agent)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Google ADK](https://img.shields.io/badge/Google-Agent%20Development%20Kit-4285F4?logo=googlecloud&logoColor=white)](https://google.github.io/adk-docs/)
 [![Model: Gemma](https://img.shields.io/badge/Open%20Weights-Gemma%203%20%2F%20Gemma%204-34A853?logo=google&logoColor=white)](https://ai.google.dev/gemma)
