@@ -1,0 +1,16 @@
+# Python & uv
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# Environment & Secrets
+.env
+*.pem
+*service-account*.json
+
+# Generated Local Data Store
+data/mock_firestore.json

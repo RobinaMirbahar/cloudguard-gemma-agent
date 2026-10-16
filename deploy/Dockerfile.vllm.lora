@@ -1,0 +1,25 @@
+# ============================================================================
+# Part 6: Multi-LoRA Dynamic Serving on Cloud Run Serverless GPUs
+# Serves compact Gemma-3-4B-IT base model + domain-tuned CloudGuard SRE LoRA
+# ============================================================================
+FROM vllm/vllm-openai:latest
+
+ENV HF_HOME=/mnt/models \
+    VLLM_WORKER_MULTIPROC_METHOD=spawn \
+    PORT=8080
+
+EXPOSE 8080
+
+ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]
+CMD ["--model", "/mnt/models/gemma-3-4b-it", \
+     "--served-model-name", "google/gemma-3-4b-it", \
+     "--enable-lora", \
+     "--max-lora-rank", "32", \
+     "--lora-modules", "cloudguard-sre-lora-v1=/mnt/models/adapters/cloudguard-sre-lora-v1", \
+     "--host", "0.0.0.0", \
+     "--port", "8080", \
+     "--dtype", "bfloat16", \
+     "--max-model-len", "8192", \
+     "--gpu-memory-utilization", "0.90", \
+     "--enable-auto-tool-choice", \
+     "--tool-call-parser", "pythonic"]

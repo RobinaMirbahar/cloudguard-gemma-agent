@@ -1,0 +1,25 @@
+# ============================================================================
+# Production vLLM Server for Open-Weights Gemma on Cloud Run Serverless GPUs
+# Supports Cloud Storage FUSE zero-download model streaming on /mnt/models
+# ============================================================================
+FROM vllm/vllm-openai:latest
+
+ENV HF_HOME=/mnt/models \
+    VLLM_WORKER_MULTIPROC_METHOD=spawn \
+    PORT=8080
+
+# Model ID can be mounted from GCS FUSE (/mnt/models/gemma-3-27b-it) or pulled
+ENV MODEL_PATH="/mnt/models/gemma-3-27b-it"
+
+EXPOSE 8080
+
+ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]
+CMD ["--model", "/mnt/models/gemma-3-27b-it", \
+     "--served-model-name", "google/gemma-3-27b-it", \
+     "--host", "0.0.0.0", \
+     "--port", "8080", \
+     "--dtype", "bfloat16", \
+     "--max-model-len", "8192", \
+     "--gpu-memory-utilization", "0.92", \
+     "--enable-auto-tool-choice", \
+     "--tool-call-parser", "pythonic"]

@@ -1,0 +1,26 @@
+[project]
+name = "cloudguard-gemma-agent"
+version = "0.1.0"
+description = "Enterprise SecOps & FinOps Triage Agent powered by Open-Weights Gemma & Google ADK on Cloud Run GPUs"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "google-adk>=1.0.0",
+    "google-genai>=1.0.0",
+    "google-cloud-firestore>=2.19.0",
+    "litellm>=1.60.0",
+    "pydantic>=2.10.0",
+    "python-dotenv>=1.0.1",
+    "opentelemetry-api>=1.29.0",
+    "opentelemetry-sdk>=1.29.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "rich>=13.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

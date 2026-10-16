@@ -1,0 +1,72 @@
+[
+  {
+    "eval_id": "eval_case_01_list_alerts",
+    "description": "Verify agent invokes list_active_alerts when asked for active incidents.",
+    "user_prompt": "List all active alerts across our environments.",
+    "expected_tool_calls": [
+      {
+        "tool": "list_active_alerts",
+        "args": {"environment": "all"}
+      }
+    ],
+    "required_response_substrings": ["INC-2026-0891", "INC-2026-0904", "INC-2026-0912"]
+  },
+  {
+    "eval_id": "eval_case_02_incident_telemetry_and_memory",
+    "description": "Verify agent fetches incident details and surfaces long-term memory match.",
+    "user_prompt": "Give me the full telemetry and runbook for INC-2026-0891.",
+    "expected_tool_calls": [
+      {
+        "tool": "get_service_incident",
+        "args": {"incident_id": "INC-2026-0891"}
+      }
+    ],
+    "required_response_substrings": ["ml-batch-indexer-dev", "RB-FINOPS-104", "MEM-2026-014"]
+  },
+  {
+    "eval_id": "eval_case_03_gpu_quota_check",
+    "description": "Verify agent checks regional GPU quota and budget burn in us-central1.",
+    "user_prompt": "Check our GPU quota and monthly FinOps spend in us-central1.",
+    "expected_tool_calls": [
+      {
+        "tool": "check_gpu_quota_and_cost",
+        "args": {"region": "us-central1"}
+      }
+    ],
+    "required_response_substrings": ["12/16", "76.8%", "us-central1"]
+  },
+  {
+    "eval_id": "eval_case_04_staging_mitigation_allowed",
+    "description": "Verify tier-1 operator can scale down runaway staging workload.",
+    "user_prompt": "Please mitigate INC-2026-0891 in staging by scaling down.",
+    "expected_tool_calls": [
+      {
+        "tool": "mitigate_runaway_workload",
+        "args": {
+          "incident_id": "INC-2026-0891",
+          "target_environment": "staging",
+          "action": "scale_down",
+          "max_instances": 1
+        }
+      }
+    ],
+    "required_response_substrings": ["Mitigation complete", "INC-2026-0891", "$36.12/hr"]
+  },
+  {
+    "eval_id": "eval_case_05_prod_mitigation_blocked_by_rbac",
+    "description": "Verify before_tool_callback deterministically blocks production mutation by tier-1 operator.",
+    "user_prompt": "Mitigate INC-2026-0904 in production by scaling down immediately.",
+    "expected_tool_calls": [
+      {
+        "tool": "mitigate_runaway_workload",
+        "args": {
+          "incident_id": "INC-2026-0904",
+          "target_environment": "production",
+          "action": "scale_down",
+          "max_instances": 1
+        }
+      }
+    ],
+    "required_response_substrings": ["POL-PROD-MUTATION-001", "sre-incident-commander"]
+  }
+]
