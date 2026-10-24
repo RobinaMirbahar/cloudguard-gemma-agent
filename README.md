@@ -246,3 +246,17 @@ Apache 2.0
 <div align="center">
   <img src="https://raw.githubusercontent.com/RobinaMirbahar/RobinaMirbahar/main/ProfileImages/GithubBanner.svg" alt="Robina Mirbahar Banner" width="100%" />
 </div>
+
+---
+
+## Star, Fork & Sponsor This Project
+
+[![Star on GitHub](https://img.shields.io/github/stars/RobinaMirbahar/cloudguard-gemma-agent?style=for-the-badge&logo=github&label=Star)](https://github.com/RobinaMirbahar/cloudguard-gemma-agent)
+[![Fork on GitHub](https://img.shields.io/github/forks/RobinaMirbahar/cloudguard-gemma-agent?style=for-the-badge&logo=github&label=Fork)](https://github.com/RobinaMirbahar/cloudguard-gemma-agent/fork)
+[![Sponsor RobinaMirbahar](https://img.shields.io/badge/Sponsor-%40RobinaMirbahar-ea4aaa?style=for-the-badge&logo=githubsponsors)](https://github.com/sponsors/RobinaMirbahar)
+
+If this project is helpful to your work:
+* **Star this Repository:** [**Star `RobinaMirbahar/cloudguard-gemma-agent` on GitHub**](https://github.com/RobinaMirbahar/cloudguard-gemma-agent) to bookmark it and help others discover it.
+* **Fork & Customize:** [**Fork `RobinaMirbahar/cloudguard-gemma-agent`**](https://github.com/RobinaMirbahar/cloudguard-gemma-agent/fork) to build and experiment with your own workflows.
+* **Sponsor on GitHub:** [**Sponsor `@RobinaMirbahar` on GitHub Sponsors (`github.com/sponsors/RobinaMirbahar`)**](https://github.com/sponsors/RobinaMirbahar) to support open-source AI, Google Cloud, and Gemini engineering projects!
+
