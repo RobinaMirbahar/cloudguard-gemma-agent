@@ -43,7 +43,7 @@ This repository implements the complete **6-Part Enterprise Agent Lifecycle**:
 1. **Part 1 — Build** ([`cloudguard_agent/agent.py`](./cloudguard_agent/agent.py)): Model-agnostic `LlmAgent` using `LiteLlm` to seamlessly switch between local Ollama (`local_ollama`) for zero-cost laptop prototyping and self-hosted **[vLLM on Cloud Run GPUs](https://cloud.google.com/run/docs/configuring/services/gpu)** (`cloud_run_vllm`) or **[Vertex AI Model Garden](https://cloud.google.com/model-garden)** in production.
 2. **Part 2 — Connect** ([`cloudguard_agent/tools.py`](./cloudguard_agent/tools.py)): Native Python tools with Gemma-optimized docstrings and type annotations backed by **[Cloud Firestore](https://cloud.google.com/firestore)** (plus a zero-config local JSON schema mirror for offline testing and CI/CD).
 3. **Part 3 — Scale** ([`deploy/`](./deploy/) & [`cloudguard_agent/memory.py`](./cloudguard_agent/memory.py)): Serverless GPU deployment on **Cloud Run (`nvidia-l4` / `nvidia-rtx-pro-6000`)** using **[Cloud Storage FUSE](https://cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts)** for zero-download model streaming, paired with **Short-Term Session State** and a **Long-Term Enterprise Memory Bank**.
-4. **Part 4 — Govern** ([`cloudguard_agent/guardrails.py`](./cloudguard_agent/guardrails.py)): Defense-in-depth security with private **[Cloud Run IAM](https://cloud.google.com/run/docs/securing/managing-access)** service accounts, **[Google Cloud Model Armor](https://cloud.google.com/security-command-center/docs/model-armor-overview)** input sanitization (redacting live GCP API keys `AIza...` and blocking prompt injections), and deterministic **RBAC Tool Policies** (`POL-PROD-MUTATION-001`).
+4. **Part 4 — Govern** ([`cloudguard_agent/guardrails.py`](./cloudguard_agent/guardrails.py)): Defense-in-depth reliability with private **[Cloud Run IAM](https://cloud.google.com/run/docs/securing/managing-access)** service accounts, **[Google Cloud Schema Validator](https://cloud.google.com/reliability-command-center/docs/model-armor-overview)** input sanitization (redacting live GCP API keys `AIza...` and blocking Malformed Inputs), and deterministic **RBAC Tool Policies** (`POL-PROD-MUTATION-001`).
 5. **Part 5 — Evaluate & Observe** ([`scripts/run_eval.py`](./scripts/run_eval.py)): Automated **[ADK Eval](https://google.github.io/adk-docs/evaluate/)** test runner scoring **Tool Trajectory Accuracy (`1.00`)** and **Response Factuality (`1.00`)** while emitting **[Google Cloud Trace](https://cloud.google.com/trace)** `gen_ai.*` OpenTelemetry spans.
 6. **Part 6 — Fine-Tune** ([`cloudguard_agent/finetuning.py`](./cloudguard_agent/finetuning.py)): Converts verified multi-turn tool trajectories into **[Gemma `<start_of_turn>` SFT JSONL format](https://ai.google.dev/gemma/docs/formatting)** and generates a **[Vertex AI QLoRA (`NVIDIA_L4`)](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma#fine-tune)** training spec so a compact **Gemma 4B** model matches **Gemma 27B** tool-calling accuracy (`1.00`) at **2.8x faster latency and 6x lower VRAM**.
 
@@ -64,15 +64,15 @@ cloudguard-gemma-agent/
 │   ├── agent.py                   # Core ADK LlmAgent & runtime orchestrator
 │   ├── tools.py                   # Native Firestore / FinOps Python tools
 │   ├── memory.py                  # Session State & Enterprise Memory Bank
-│   ├── guardrails.py              # Model Armor & RBAC policy callbacks
+│   ├── guardrails.py              # Schema Validator & RBAC policy callbacks
 │   └── finetuning.py              # Vertex AI QLoRA SFT dataset & job builder
 ├── deploy/
 │   ├── Dockerfile.vllm            # vLLM + GCS FUSE container for Cloud Run GPUs
 │   ├── Dockerfile.vllm.lora       # Dynamic multi-LoRA serving container
-│   └── deploy_cloud_run_gpu.sh    # Zero-trust IAM + Cloud Run GPU deploy script
+│   └── deploy_cloud_run_gpu.sh    # Deterministic Validation IAM + Cloud Run GPU deploy script
 ├── scripts/
 │   ├── seed_firestore.py          # Seeds incidents & GPU quota collections
-│   ├── simulate_parts.py          # Runs Parts 1-4 multi-turn & security tests
+│   ├── simulate_parts.py          # Runs Parts 1-4 multi-turn & reliability tests
 │   ├── run_eval.py                # Runs Part 5 ADK Eval suite + OTel spans
 │   └── prepare_and_verify_lora.py # Exports Part 6 Gemma SFT JSONL & benchmarks
 └── tests/
@@ -121,11 +121,11 @@ python3 scripts/simulate_parts.py
 
 ---
 
-### Part 4: Defense-in-Depth Security (IAM, Model Armor & RBAC Callbacks)
+### Part 4: Defense-in-Depth reliability (IAM, Schema Validator & RBAC Callbacks)
 
-![Figure 5: Part 4 — Defense-in-Depth Security with IAM, Model Armor & RBAC Callbacks](https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/part4_zero_trust_governance.jpg)
+![Figure 5: Part 4 — Defense-in-Depth reliability with IAM, Schema Validator & RBAC Callbacks](https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/part4_zero_trust_governance.jpg)
 
-![Model Armor API key redaction, RBAC production denial, and prompt injection blocking in Cloud Shell](https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/cloud_shell_part4_guardrails.png)
+![Schema Validator API key redaction, RBAC production denial, and Malformed Input blocking in Cloud Shell](https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/cloud_shell_part4_guardrails.png)
 
 ---
 
@@ -176,7 +176,7 @@ bash deploy/deploy_cloud_run_gpu.sh
 * **Cloud Run Serverless GPUs Documentation:** [cloud.google.com/run/docs/configuring/services/gpu](https://cloud.google.com/run/docs/configuring/services/gpu)
 * **Cloud Storage FUSE Volume Mounts on Cloud Run:** [cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts](https://cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts)
 * **Cloud Firestore Native Mode Documentation:** [cloud.google.com/firestore/docs](https://cloud.google.com/firestore/docs)
-* **Google Cloud Model Armor Security Overview:** [cloud.google.com/security-command-center/docs/model-armor-overview](https://cloud.google.com/security-command-center/docs/model-armor-overview)
+* **Google Cloud Schema Validator reliability Overview:** [cloud.google.com/reliability-command-center/docs/model-armor-overview](https://cloud.google.com/reliability-command-center/docs/model-armor-overview)
 * **ADK Deterministic Agent Evaluation (ADK Eval):** [google.github.io/adk-docs/evaluate](https://google.github.io/adk-docs/evaluate/)
 * **Google Cloud Trace & OpenTelemetry for Python:** [cloud.google.com/trace/docs/setup/python-ot](https://cloud.google.com/trace/docs/setup/python-ot)
 * **Gemma Chat & Function Calling Formatting (`<start_of_turn>`):** [ai.google.dev/gemma/docs/formatting](https://ai.google.dev/gemma/docs/formatting)
@@ -211,7 +211,7 @@ Apache 2.0
 | **[slothsre-napops](https://github.com/RobinaMirbahar/slothsre-napops)** | SlothSRE ("NapOps") — Overnight Gemma 4 & Google ADK Incident Digest Agent with OpenTelemetry & Sentry AI Monitoring | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/slothsre-napops?style=flat-square&color=34A853) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/slothsre-napops?style=flat-square) |
 | **[streamforge-event-adk](https://github.com/RobinaMirbahar/streamforge-event-adk)** | Real-Time Event-Driven Multi-Agent Pipelines on Google Cloud with ADK (`ParallelAgent` & `LoopAgent`), Eventarc & Pub/Sub | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/streamforge-event-adk?style=flat-square&color=FBBC04) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/streamforge-event-adk?style=flat-square) |
 | **[a2a-mcp-mesh-cloudrun](https://github.com/RobinaMirbahar/a2a-mcp-mesh-cloudrun)** | Agent-to-Agent (A2A) & Multi-MCP Mesh on Cloud Run with Gemma 4, Google ADK, Spanner Graph & AlloyDB | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/a2a-mcp-mesh-cloudrun?style=flat-square&color=EA4335) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/a2a-mcp-mesh-cloudrun?style=flat-square) |
-| **[cloudguard-gemma-agent](https://github.com/RobinaMirbahar/cloudguard-gemma-agent)** | 6-Part Production Gemma Enterprise Agent Series (ADK, Cloud Run L4 GPU, Firestore, Model Armor, Vertex AI QLoRA) | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/cloudguard-gemma-agent?style=flat-square&color=4285F4) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/cloudguard-gemma-agent?style=flat-square) |
+| **[cloudguard-gemma-agent](https://github.com/RobinaMirbahar/cloudguard-gemma-agent)** | 6-Part Production Gemma Enterprise Agent Series (ADK, Cloud Run L4 GPU, Firestore, Schema Validator, Vertex AI QLoRA) | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/cloudguard-gemma-agent?style=flat-square&color=4285F4) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/cloudguard-gemma-agent?style=flat-square) |
 | **[Comic-Studio-Ai](https://github.com/RobinaMirbahar/Comic-Studio-Ai)** | Multi-Agent Comic Generator powered by Google Gemini API & FastAPI deployed on Google Cloud Run | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/Comic-Studio-Ai?style=flat-square&color=EA4335) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/Comic-Studio-Ai?style=flat-square) |
 | **[vertex-ai-imagen3](https://github.com/RobinaMirbahar/vertex-ai-imagen3)** | Generate AI-powered product & editorial images using Google Vertex AI Imagen 3 in Google Colab | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/vertex-ai-imagen3?style=flat-square&color=34A853) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/vertex-ai-imagen3?style=flat-square) |
 | **[Python-Learning-Assistant](https://github.com/RobinaMirbahar/Python-Learning-Assistant)** | AI-powered Python tutor covering 50+ interactive exercises with real-time feedback built with Streamlit + Gemini API | ![Stars](https://img.shields.io/github/stars/RobinaMirbahar/Python-Learning-Assistant?style=flat-square&color=FBBC04) ![Last Commit](https://img.shields.io/github/last-commit/RobinaMirbahar/Python-Learning-Assistant?style=flat-square) |
