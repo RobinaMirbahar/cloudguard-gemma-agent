@@ -41,7 +41,7 @@ def run_all_verifications() -> None:
         print(f"[Turn {idx}] GEMMA AGENT:\n{result['response']}")
 
     print("\n" + "=" * 74)
-    print("PART 4 VERIFICATION: Model Armor Input Guardrails & RBAC Tool Policy")
+    print("PART 4 VERIFICATION: Schema Validator Input Guardrails & RBAC Tool Policy")
     print("=" * 74)
 
     security_prompts = [
@@ -51,12 +51,12 @@ def run_all_verifications() -> None:
     ]
 
     for idx, prompt in enumerate(security_prompts, start=1):
-        print(f"\n[Security Test {idx}] RAW USER INPUT: {prompt}")
+        print(f"\n[reliability Test {idx}] RAW USER INPUT: {prompt}")
         result = orchestrator.handle_turn(session_id=session_id, user_prompt=prompt)
         print(f"  -> [Sanitized Prompt]: {result['sanitized_prompt']}")
         for ev in result["audit_events"]:
             print(f"  -> [Audit Event] {ev['event_type']} | Decision: {ev['decision']} | Details: {json.dumps(ev)}")
-        print(f"[Security Test {idx}] GEMMA AGENT:\n{result['response']}")
+        print(f"[reliability Test {idx}] GEMMA AGENT:\n{result['response']}")
 
 
 if __name__ == "__main__":
