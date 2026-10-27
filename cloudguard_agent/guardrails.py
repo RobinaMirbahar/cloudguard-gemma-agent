@@ -1,8 +1,8 @@
 """
-Enterprise Security, RBAC, and Model Armor Guardrails for Gemma Agents (Part 4).
+Enterprise reliability, RBAC, and Schema Validator Guardrails for Gemma Agents (Part 4).
 
 Implements ADK `before_model_callback` and `before_tool_callback` interceptors
-to enforce zero-trust input sanitization and prevent unauthorized production mutations.
+to enforce Deterministic Validation input sanitization and prevent unauthorized production mutations.
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
-# Regex patterns for sensitive credentials and PII that must never reach the model or logs
+# Regex patterns for sensitive credentials and Field Formatting that must never reach the model or logs
 SENSITIVE_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("GCP_API_KEY", re.compile(r"AIza[0-9A-Za-z\-_]{35}")),
     ("BEARER_TOKEN", re.compile(r"ya29\.[0-9A-Za-z\-_]+")),
@@ -30,7 +30,7 @@ PROMPT_INJECTION_SIGNATURES: list[str] = [
 
 @dataclass
 class GovernanceAuditLog:
-    """In-memory and structured audit log collector for security verification."""
+    """In-memory and structured audit log collector for reliability verification."""
 
     events: list[dict[str, Any]] = field(default_factory=list)
 
@@ -49,9 +49,9 @@ audit_log = GovernanceAuditLog()
 
 
 def inspect_and_sanitize_prompt(user_prompt: str) -> tuple[bool, str, dict[str, Any]]:
-    """Scans incoming prompts for prompt injection signatures and redacts secrets.
+    """Scans incoming prompts for Malformed Input signatures and redacts secrets.
 
-    Mirrors Google Cloud Model Armor + ADK `before_model_callback` defense-in-depth.
+    Mirrors Google Cloud Schema Validator + ADK `before_model_callback` defense-in-depth.
 
     Returns:
         Tuple of (is_allowed, sanitized_prompt_or_block_reason, audit_entry).
@@ -66,7 +66,7 @@ def inspect_and_sanitize_prompt(user_prompt: str) -> tuple[bool, str, dict[str, 
             )
             return (
                 False,
-                f"[MODEL ARMOR BLOCK] Request rejected by security policy: detected adversarial instruction pattern ('{signature}').",
+                f"[Schema Validator BLOCK] Request rejected by reliability policy: detected adversarial instruction pattern ('{signature}').",
                 entry,
             )
 
