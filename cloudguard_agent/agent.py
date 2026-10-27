@@ -81,7 +81,7 @@ def build_adk_root_agent() -> Any:
 
 class CloudGuardRuntimeOrchestrator:
     """Deterministic local & CI runtime harness that executes the full ADK lifecycle:
-    1. `before_model_callback` (Model Armor & PII/Secret Redaction)
+    1. `before_model_callback` (Schema Validator & Field Formatting/Secret Redaction)
     2. Session context & Long-Term Memory retrieval
     3. Gemma Function Calling & `before_tool_callback` RBAC policy enforcement
     4. Structured response synthesis & OpenTelemetry trace recording
