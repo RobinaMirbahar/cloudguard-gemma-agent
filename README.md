@@ -1,5 +1,49 @@
 # CloudGuard: Open-Weights Enterprise SecOps & FinOps Agent (Gemma + Google ADK + Cloud Run GPUs)
 
+> **Author & Architect:** [Robina Mirbahar](https://github.com/RobinaMirbahar) (Google Developer Expert in Cloud & AI)  
+> **Focus:** 6-Part Production Gemma Enterprise SecOps & FinOps Agent Platform on Google Cloud Run GPUs
+
+---
+
+## 🎯 Why I Built CloudGuard Gemma Agent (Engineering Purpose & Real-World Value)
+
+### 1. 🛡️ Zero-Exfiltration SecOps & FinOps Automation
+Enterprise security and cloud billing teams cannot send sensitive IAM policies, VPC logs, or billing anomalies to external SaaS APIs. I architected CloudGuard to run open-weights Gemma inside your own GCP project perimeter.
+
+### 2. ⚙️ End-to-End 6-Part Production Lifecycle
+Rather than a single toy script, I structured this repository as a complete 6-part production blueprint covering Google ADK tool calling, Cloud Run L4 GPU deployment with vLLM, Firestore session persistence, Pydantic guardrails, and Vertex AI QLoRA fine-tuning.
+
+### 3. 💰 Scale-to-Zero Serverless GPU Economics
+By deploying vLLM + Gemma on Google Cloud Run GPUs with scale-to-zero configuration, my architecture eliminates 24/7 idle VM waste while delivering low-latency incident remediation.
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+    subgraph Ingest ["1. SecOps & FinOps Telemetry"]
+        I_IAM["IAM Policy & Audit Logs"]
+        I_Bill["Cloud Billing Cost Anomalies"]
+    end
+    subgraph Agent ["2. Google ADK + Gemma on Cloud Run L4 GPU"]
+        A_ADK["CloudGuard ADK Orchestrator"]
+        A_vLLM["vLLM Open-Weights Gemma Server (L4 GPU)"]
+        A_FS["Cloud Firestore Session & Audit Store"]
+    end
+    subgraph Safety ["3. Guardrails & QLoRA Adaptation"]
+        S_Pyd["Pydantic v2 Schema & Policy Interlocks"]
+        S_LoRA["Vertex AI QLoRA Domain Adapter"]
+    end
+    Ingest --> A_ADK
+    A_ADK <--> A_vLLM
+    A_ADK <--> A_FS
+    A_vLLM <--> S_LoRA
+    A_ADK --> S_Pyd
+```
+
+---
+
 <p align="center">
   <a href="https://shell.cloud.google.com/?cloudshell_git_repo=https://github.com/RobinaMirbahar/cloudguard-gemma-agent">
     <img src="https://gstatic.com/cloudssh/images/open-btn.svg" alt="Open in Cloud Shell" height="32" />
@@ -220,3 +264,22 @@ Apache 2.0
 <div align="center">
   <img src="https://raw.githubusercontent.com/RobinaMirbahar/RobinaMirbahar/main/ProfileImages/GithubBanner.svg" alt="Robina Mirbahar Banner" width="100%" />
 </div>
+
+<!-- AUTHOR_SIGNATURE_START -->
+---
+
+## 👩‍💻 About the Author
+
+**Robina Mirbahar — Google Cloud & AI Architect**  
+*Google Developer Expert (GDE) in Cloud & AI • Published Author • Multi-Agent Systems & Serverless GPU Builder*
+
+[![GitHub](https://img.shields.io/badge/GitHub-RobinaMirbahar-181717?style=for-the-badge&logo=github)](https://github.com/RobinaMirbahar)
+[![Medium](https://img.shields.io/badge/Medium-@robinamirbahar-000000?style=for-the-badge&logo=medium)](https://medium.com/@robinamirbahar)
+[![DEV.to](https://img.shields.io/badge/DEV.to-robinamirbahar-0A0A0A?style=for-the-badge&logo=devdotto)](https://dev.to/robinamirbahar)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Robina_Mirbahar-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/robina-mirbahar)
+[![GDE Profile](https://img.shields.io/badge/Google_Developer_Expert-Profile-4285F4?style=for-the-badge&logo=google)](https://g.dev/RobinaMirbahar)
+[![YouTube](https://img.shields.io/badge/YouTube-@RobinaMirbahar-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@RobinaMirbahar)
+[![X](https://img.shields.io/badge/X-@RobinaMirbahar-000000?style=for-the-badge&logo=x)](https://x.com/RobinaMirbahar)
+[![Amazon Author](https://img.shields.io/badge/Amazon_Book-Cloud_Computing_Voyage-FF9900?style=for-the-badge&logo=amazon)](https://www.amazon.com/dp/B0D146249R)
+
+<!-- AUTHOR_SIGNATURE_END -->
