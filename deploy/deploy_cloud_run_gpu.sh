@@ -2,7 +2,7 @@
 # ============================================================================
 # Part 3 & Part 4 Deployment Script:
 # Deploys Open-Weights Gemma on Cloud Run Serverless GPUs + Cloud Storage FUSE
-# with Zero-Trust IAM Service Account Isolation
+# with Deterministic Validation IAM Service Account Isolation
 # ============================================================================
 set -euo pipefail
 
