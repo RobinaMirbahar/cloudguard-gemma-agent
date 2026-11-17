@@ -54,16 +54,16 @@ flowchart TD
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+" />
   </a>
-  <a href="https://google.github.io/adk-docs/">
+  <a href="https://google.github.io/adk-docs/?utm_campaign=deveco_gdemembers&utm_source=deveco">
     <img src="https://img.shields.io/badge/Google-Agent_Development_Kit-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Google ADK" />
   </a>
-  <a href="https://ai.google.dev/gemma">
+  <a href="https://ai.google.dev/gemma?utm_campaign=deveco_gdemembers&utm_source=deveco">
     <img src="https://img.shields.io/badge/Open_Weights-Gemma_3-34A853?style=for-the-badge&logo=google&logoColor=white" alt="Model: Gemma 3" />
   </a>
-  <a href="https://cloud.google.com/run/docs/configuring/services/gpu">
+  <a href="https://cloud.google.com/run/docs/configuring/services/gpu?utm_campaign=deveco_gdemembers&utm_source=deveco">
     <img src="https://img.shields.io/badge/Cloud_Run-Serverless_GPU_vLLM-FBBC04?style=for-the-badge&logo=googlecloud&logoColor=black" alt="Runtime: Cloud Run GPU" />
   </a>
-  <a href="https://cloud.google.com/model-garden">
+  <a href="https://cloud.google.com/model-garden?utm_campaign=deveco_gdemembers&utm_source=deveco">
     <img src="https://img.shields.io/badge/Vertex_AI-Model_Garden_%26_QLoRA-EA4335?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Vertex AI Model Garden" />
   </a>
 </p>
@@ -72,7 +72,7 @@ flowchart TD
   <img src="https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/article_cover_cloudguard_gemma.jpg" alt="Cover Photo: Enterprise Open-Weights AI Agents Built with Google Gemma, ADK & Cloud Run GPUs" width="100%" />
 </p>
 
-**CloudGuard** is an end-to-end reference implementation for building, connecting, scaling, governing, evaluating, and QLoRA fine-tuning a production-ready **Enterprise AI Agent** on **Google Cloud** using **open-weights Gemma models** (`google/gemma-3-4b-it`, `google/gemma-3-12b-it`, `google/gemma-3-27b-it`) and the **[Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/)**.
+**CloudGuard** is an end-to-end reference implementation for building, connecting, scaling, governing, evaluating, and QLoRA fine-tuning a production-ready **Enterprise AI Agent** on **Google Cloud** using **open-weights Gemma models** (`google/gemma-3-4b-it`, `google/gemma-3-12b-it`, `google/gemma-3-27b-it`) and the **[Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/?utm_campaign=deveco_gdemembers&utm_source=deveco)**.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/series_architecture_pillars.jpg" alt="Figure 1: Gemma Enterprise Agent Platform Architecture" width="100%" />
@@ -84,12 +84,12 @@ flowchart TD
 
 This repository implements the complete **6-Part Enterprise Agent Lifecycle**:
 
-1. **Part 1 — Build** ([`cloudguard_agent/agent.py`](./cloudguard_agent/agent.py)): Model-agnostic `LlmAgent` using `LiteLlm` to seamlessly switch between local Ollama (`local_ollama`) for zero-cost laptop prototyping and self-hosted **[vLLM on Cloud Run GPUs](https://cloud.google.com/run/docs/configuring/services/gpu)** (`cloud_run_vllm`) or **[Vertex AI Model Garden](https://cloud.google.com/model-garden)** in production.
-2. **Part 2 — Connect** ([`cloudguard_agent/tools.py`](./cloudguard_agent/tools.py)): Native Python tools with Gemma-optimized docstrings and type annotations backed by **[Cloud Firestore](https://cloud.google.com/firestore)** (plus a zero-config local JSON schema mirror for offline testing and CI/CD).
-3. **Part 3 — Scale** ([`deploy/`](./deploy/) & [`cloudguard_agent/memory.py`](./cloudguard_agent/memory.py)): Serverless GPU deployment on **Cloud Run (`nvidia-l4` / `nvidia-rtx-pro-6000`)** using **[Cloud Storage FUSE](https://cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts)** for zero-download model streaming, paired with **Short-Term Session State** and a **Long-Term Enterprise Memory Bank**.
-4. **Part 4 — Govern** ([`cloudguard_agent/guardrails.py`](./cloudguard_agent/guardrails.py)): Defense-in-depth reliability with private **[Cloud Run IAM](https://cloud.google.com/run/docs/securing/managing-access)** service accounts, **[Google Cloud Schema Validator](https://cloud.google.com/reliability-command-center/docs/model-armor-overview)** input sanitization (redacting live GCP API keys `AIza...` and blocking Malformed Inputs), and deterministic **RBAC Tool Policies** (`POL-PROD-MUTATION-001`).
-5. **Part 5 — Evaluate & Observe** ([`scripts/run_eval.py`](./scripts/run_eval.py)): Automated **[ADK Eval](https://google.github.io/adk-docs/evaluate/)** test runner scoring **Tool Trajectory Accuracy (`1.00`)** and **Response Factuality (`1.00`)** while emitting **[Google Cloud Trace](https://cloud.google.com/trace)** `gen_ai.*` OpenTelemetry spans.
-6. **Part 6 — Fine-Tune** ([`cloudguard_agent/finetuning.py`](./cloudguard_agent/finetuning.py)): Converts verified multi-turn tool trajectories into **[Gemma `<start_of_turn>` SFT JSONL format](https://ai.google.dev/gemma/docs/formatting)** and generates a **[Vertex AI QLoRA (`NVIDIA_L4`)](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma#fine-tune)** training spec so a compact **Gemma 4B** model matches **Gemma 27B** tool-calling accuracy (`1.00`) at **2.8x faster latency and 6x lower VRAM**.
+1. **Part 1 — Build** ([`cloudguard_agent/agent.py`](./cloudguard_agent/agent.py)): Model-agnostic `LlmAgent` using `LiteLlm` to seamlessly switch between local Ollama (`local_ollama`) for zero-cost laptop prototyping and self-hosted **[vLLM on Cloud Run GPUs](https://cloud.google.com/run/docs/configuring/services/gpu?utm_campaign=deveco_gdemembers&utm_source=deveco)** (`cloud_run_vllm`) or **[Vertex AI Model Garden](https://cloud.google.com/model-garden?utm_campaign=deveco_gdemembers&utm_source=deveco)** in production.
+2. **Part 2 — Connect** ([`cloudguard_agent/tools.py`](./cloudguard_agent/tools.py)): Native Python tools with Gemma-optimized docstrings and type annotations backed by **[Cloud Firestore](https://cloud.google.com/firestore?utm_campaign=deveco_gdemembers&utm_source=deveco)** (plus a zero-config local JSON schema mirror for offline testing and CI/CD).
+3. **Part 3 — Scale** ([`deploy/`](./deploy/) & [`cloudguard_agent/memory.py`](./cloudguard_agent/memory.py)): Serverless GPU deployment on **Cloud Run (`nvidia-l4` / `nvidia-rtx-pro-6000`)** using **[Cloud Storage FUSE](https://cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts?utm_campaign=deveco_gdemembers&utm_source=deveco)** for zero-download model streaming, paired with **Short-Term Session State** and a **Long-Term Enterprise Memory Bank**.
+4. **Part 4 — Govern** ([`cloudguard_agent/guardrails.py`](./cloudguard_agent/guardrails.py)): Defense-in-depth reliability with private **[Cloud Run IAM](https://cloud.google.com/run/docs/securing/managing-access?utm_campaign=deveco_gdemembers&utm_source=deveco)** service accounts, **[Google Cloud Schema Validator](https://cloud.google.com/reliability-command-center/docs/model-armor-overview?utm_campaign=deveco_gdemembers&utm_source=deveco)** input sanitization (redacting live GCP API keys `AIza...` and blocking Malformed Inputs), and deterministic **RBAC Tool Policies** (`POL-PROD-MUTATION-001`).
+5. **Part 5 — Evaluate & Observe** ([`scripts/run_eval.py`](./scripts/run_eval.py)): Automated **[ADK Eval](https://google.github.io/adk-docs/evaluate/?utm_campaign=deveco_gdemembers&utm_source=deveco)** test runner scoring **Tool Trajectory Accuracy (`1.00`)** and **Response Factuality (`1.00`)** while emitting **[Google Cloud Trace](https://cloud.google.com/trace?utm_campaign=deveco_gdemembers&utm_source=deveco)** `gen_ai.*` OpenTelemetry spans.
+6. **Part 6 — Fine-Tune** ([`cloudguard_agent/finetuning.py`](./cloudguard_agent/finetuning.py)): Converts verified multi-turn tool trajectories into **[Gemma `<start_of_turn>` SFT JSONL format](https://ai.google.dev/gemma/docs/formatting?utm_campaign=deveco_gdemembers&utm_source=deveco)** and generates a **[Vertex AI QLoRA (`NVIDIA_L4`)](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma?utm_campaign=deveco_gdemembers&utm_source=deveco#fine-tune)** training spec so a compact **Gemma 4B** model matches **Gemma 27B** tool-calling accuracy (`1.00`) at **2.8x faster latency and 6x lower VRAM**.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/RobinaMirbahar/cloudguard-gemma-agent/main/assets/end_to_end_request_flow.jpg" alt="Figure 2: End-to-End Request Flow" width="100%" />
@@ -214,16 +214,16 @@ bash deploy/deploy_cloud_run_gpu.sh
 
 ## Official Google Cloud Documentation & References
 
-* **Google Gemma Open Models Overview:** [ai.google.dev/gemma](https://ai.google.dev/gemma)
-* **Google Agent Development Kit (ADK) Documentation:** [google.github.io/adk-docs](https://google.github.io/adk-docs/)
-* **Deploying Gemma on Vertex AI Model Garden:** [cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma)
-* **Cloud Run Serverless GPUs Documentation:** [cloud.google.com/run/docs/configuring/services/gpu](https://cloud.google.com/run/docs/configuring/services/gpu)
-* **Cloud Storage FUSE Volume Mounts on Cloud Run:** [cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts](https://cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts)
-* **Cloud Firestore Native Mode Documentation:** [cloud.google.com/firestore/docs](https://cloud.google.com/firestore/docs)
-* **Google Cloud Schema Validator reliability Overview:** [cloud.google.com/reliability-command-center/docs/model-armor-overview](https://cloud.google.com/reliability-command-center/docs/model-armor-overview)
-* **ADK Deterministic Agent Evaluation (ADK Eval):** [google.github.io/adk-docs/evaluate](https://google.github.io/adk-docs/evaluate/)
-* **Google Cloud Trace & OpenTelemetry for Python:** [cloud.google.com/trace/docs/setup/python-ot](https://cloud.google.com/trace/docs/setup/python-ot)
-* **Gemma Chat & Function Calling Formatting (`<start_of_turn>`):** [ai.google.dev/gemma/docs/formatting](https://ai.google.dev/gemma/docs/formatting)
+* **Google Gemma Open Models Overview:** [ai.google.dev/gemma](https://ai.google.dev/gemma?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Google Agent Development Kit (ADK) Documentation:** [google.github.io/adk-docs](https://google.github.io/adk-docs/?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Deploying Gemma on Vertex AI Model Garden:** [cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma](https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Cloud Run Serverless GPUs Documentation:** [cloud.google.com/run/docs/configuring/services/gpu](https://cloud.google.com/run/docs/configuring/services/gpu?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Cloud Storage FUSE Volume Mounts on Cloud Run:** [cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts](https://cloud.google.com/run/docs/configuring/services/cloud-storage-volume-mounts?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Cloud Firestore Native Mode Documentation:** [cloud.google.com/firestore/docs](https://cloud.google.com/firestore/docs?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Google Cloud Schema Validator reliability Overview:** [cloud.google.com/reliability-command-center/docs/model-armor-overview](https://cloud.google.com/reliability-command-center/docs/model-armor-overview?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **ADK Deterministic Agent Evaluation (ADK Eval):** [google.github.io/adk-docs/evaluate](https://google.github.io/adk-docs/evaluate/?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Google Cloud Trace & OpenTelemetry for Python:** [cloud.google.com/trace/docs/setup/python-ot](https://cloud.google.com/trace/docs/setup/python-ot?utm_campaign=deveco_gdemembers&utm_source=deveco)
+* **Gemma Chat & Function Calling Formatting (`<start_of_turn>`):** [ai.google.dev/gemma/docs/formatting](https://ai.google.dev/gemma/docs/formatting?utm_campaign=deveco_gdemembers&utm_source=deveco)
 
 ---
 
