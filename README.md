@@ -41,17 +41,6 @@ flowchart TD
     A_ADK <--> A_FS
     A_vLLM <--> S_LoRA
     A_ADK --> S_Pyd
-    style Ingest fill:#fce7f3,stroke:#db2777,stroke-width:2px,color:#831843
-    style I_IAM fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a8a
-    style I_Bill fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
-    style Agent fill:#f3e8ff,stroke:#9333ea,stroke-width:2px,color:#581c87
-    style A_ADK fill:#fce7f3,stroke:#db2777,stroke-width:2px,color:#831843
-    style A_vLLM fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a8a
-    style Server fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
-    style A_FS fill:#f3e8ff,stroke:#9333ea,stroke-width:2px,color:#581c87
-    style Safety fill:#fce7f3,stroke:#db2777,stroke-width:2px,color:#831843
-    style S_Pyd fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a8a
-    style S_LoRA fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
 ```
 
 ---
