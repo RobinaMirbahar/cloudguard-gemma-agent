@@ -2,7 +2,7 @@
 
 > **Author & Architect:** [Robina Mirbahar](https://github.com/RobinaMirbahar) ([Google Developer Expert in Cloud & AI](https://developers.google.com/profile/u/106918534005910641104?utm_campaign=deveco_gdemembers&utm_source=deveco) · Google Cloud Champion Innovator · Co-Author of [*AI Engineering*](https://www.amazon.com/dp/B0GWCZWCF4))  
 > 📚 **Companion Publications:** [Medium (Google Cloud) Featured Article](https://medium.com/google-cloud/building-production-ready-open-weights-ai-agents-with-gemma-google-adk-and-cloud-run-gpus-5d66fb7a34d5) · [DEV.to (@gde) Article](https://dev.to/gde/building-production-ready-open-weights-ai-agents-with-gemma-google-adk-and-cloud-run-gpus-2mfg)  
-> **Focus:** 6-Part Production Gemma Enterprise SecOps & FinOps Agent Platform on Google Cloud Run GPUs
+> **Core Stack:** Open-Weights [Google Gemma](https://ai.google.dev/gemma?utm_campaign=deveco_gdemembers&utm_source=deveco), [Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/?utm_campaign=deveco_gdemembers&utm_source=deveco), [Google Cloud Run L4 GPUs](https://cloud.google.com/run/docs?utm_campaign=deveco_gdemembers&utm_source=deveco), vLLM, Cloud Firestore, Model Armor, and [Vertex AI QLoRA](https://cloud.google.com/vertex-ai/docs?utm_campaign=deveco_gdemembers&utm_source=deveco).
 
 ---
 
